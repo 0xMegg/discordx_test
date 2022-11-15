@@ -3,6 +3,7 @@ import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
 import dotenv from "dotenv";
+import "reflect-metadata";
 
 dotenv.config();
 

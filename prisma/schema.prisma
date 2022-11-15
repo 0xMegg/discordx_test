@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                       Int                @id @default(autoincrement())
+  createdAt                DateTime           @default(now())
+  name                     String
+  mimix                    Int                @default(0)
+  discordId                String             @unique
+  pointSendTransactions    PointTransaction[] @relation("pointSender")
+  pointReceiveTransactions PointTransaction[] @relation("pointReceiver")
+}
+
+model PointTransaction {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  senderId   Int
+  receiverId Int
+  amount     Int
+  sender     User     @relation("pointSender", fields: [senderId], references: [id], onDelete: NoAction)
+  receiver   User     @relation("pointReceiver", fields: [receiverId], references: [id], onDelete: NoAction)
+}
