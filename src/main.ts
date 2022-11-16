@@ -1,9 +1,10 @@
+import "reflect-metadata";
 import { dirname, importx } from "@discordx/importer";
 import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
-import { Client } from "discordx";
+import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx";
+import { container } from "tsyringe";
 import dotenv from "dotenv";
-import "reflect-metadata";
 
 dotenv.config();
 
@@ -56,11 +57,8 @@ bot.on("messageCreate", (message: Message) => {
 });
 
 async function run() {
-  // The following syntax should be used in the commonjs environment
-  //
-  // await importx(__dirname + "/{events,commands}/**/*.{ts,js}");
+  DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 
-  // The following syntax should be used in the ECMAScript environment
   await importx(`${dirname(import.meta.url)}/{events,commands}/**/*.{ts,js}`);
   // Let's start the bot
   if (!process.env.BOT_TOKEN) {
