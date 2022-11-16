@@ -6,10 +6,11 @@
   "type": "module",
   "main": "build/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run prune && tsc",
+    "prune": "rm -rf build",
     "build:changelog": "npx @discordx/changelog --root=src",
     "dev": "ts-node-esm src/main.ts",
-    "start": "node build/main.js",
+    "start": "node --es-module-specifier-resolution=node build/main.js",
     "watch": "nodemon --exec ts-node-esm src/main.ts",
     "pretty": "prettier --write \"./src/**/*.{ts,tsx,json}\""
   },
