@@ -12,7 +12,13 @@ export class UsersService {
     return prisma.user.upsert({
       where: { discordId: data.discordId },
       update: {},
-      create: { name: data.name, discordId: data.discordId },
+      create: { displayName: data.displayName, discordId: data.discordId },
+    });
+  }
+
+  async findUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+    return prisma.user.findUniqueOrThrow({
+      where: {},
     });
   }
 }
