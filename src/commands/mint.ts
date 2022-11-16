@@ -27,13 +27,10 @@ export class Mint {
     interaction: CommandInteraction
   ) {
     if (user) {
-      const displayName = user.username + user.discriminator;
-      await this.mimixService.mint(displayName, user.id, amount);
+      await this.mimixService.mint(user.id, amount);
       interaction.reply(`${amount} is minted to ${user}`);
     } else {
-      const displayName =
-        interaction.user.username + interaction.user.discriminator;
-      await this.mimixService.mint(displayName, interaction.user.id, amount);
+      await this.mimixService.mint(interaction.user.id, amount);
       interaction.reply(`${amount} is minted`);
     }
   }

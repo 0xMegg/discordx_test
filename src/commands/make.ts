@@ -13,7 +13,6 @@ export class Make {
     const data = await interaction.guild?.members.fetch();
     data?.filter((e) => {
       this.usersService.createUsers({
-        displayName: e.displayName,
         discordId: e.id,
       });
     });
