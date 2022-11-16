@@ -1,6 +1,6 @@
 import { Prisma, User } from "@prisma/client";
 import { singleton } from "tsyringe";
-import { prisma } from "../database/prisma.js";
+import { prisma } from "../database/prisma";
 
 @singleton()
 export class UsersService {
@@ -12,13 +12,14 @@ export class UsersService {
     return prisma.user.upsert({
       where: { discordId: data.discordId },
       update: {},
-      create: { displayName: data.displayName, discordId: data.discordId },
+      create: { discordId: data.discordId },
     });
   }
 
-  async findUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return prisma.user.findUniqueOrThrow({
-      where: {},
+  async findUserName(discordId: string): Promise<User | null> {
+    const displayName = await prisma.user.findUnique({
+      where: { discordId: discordId },
     });
+    return displayName;
   }
 }

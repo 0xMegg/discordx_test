@@ -12,8 +12,11 @@ export class Make {
   async make(interaction: CommandInteraction) {
     const data = await interaction.guild?.members.fetch();
     data?.filter((e) => {
-      this.usersService.createUsers({ name: e.displayName, discordId: e.id });
+      this.usersService.createUsers({
+        displayName: e.displayName,
+        discordId: e.id,
+      });
     });
-    interaction.reply(`make`);
+    interaction.reply(`made`);
   }
 }

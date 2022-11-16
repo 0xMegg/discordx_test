@@ -13,7 +13,6 @@ datasource db {
 model User {
   id                       Int                @id @default(autoincrement())
   createdAt                DateTime           @default(now())
-  displayName              String
   mimix                    Int                @default(0)
   discordId                String             @unique
   pointSendTransactions    PointTransaction[] @relation("pointSender")

@@ -2,17 +2,25 @@ import { PrismaPromise, User } from "@prisma/client";
 import { singleton } from "tsyringe";
 import { prisma } from "../database/prisma";
 import { UsersService } from "./UsersService";
-import { PointLogger } from "../utils/DiscordLogger";
 
 @singleton()
-export class PointsService {
+export class MimixService {
   constructor(private usersService: UsersService) {}
 
-  add(discordId: string, amount: number): PrismaPromise<User> {
+  // mint(discordId: string, amount: number): Promise<User> {
+  //   const userData = this.usersService.findUserName(discordId);
+  //   const displayName = userData.displayName;
+  //   return prisma.user.upsert({
+  //     where: { discordId },
+  //     update: { mimix: { increment: amount } },
+  //     create: { displayName, discordId, mimix: amount },
+  //   });
+  // }
+  mint(discordId: string, amount: number): Promise<User> {
     return prisma.user.upsert({
       where: { discordId },
       update: { mimix: { increment: amount } },
-      create: { name, discordId, mimix: amount },
+      create: { discordId, mimix: amount },
     });
   }
 
