@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "discord.js";
 import { Discord, Slash } from "discordx";
 import { injectable } from "tsyringe";
-import { UsersService } from "../services/UsersService.js";
+import { UsersService } from "../../services/UsersService.js";
 
 @Discord()
 @injectable()

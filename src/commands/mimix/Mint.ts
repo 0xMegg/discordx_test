@@ -2,7 +2,7 @@ import type { CommandInteraction, User } from "discord.js";
 import { ApplicationCommandOptionType } from "discord.js";
 import { Discord, Slash, SlashOption } from "discordx";
 import { injectable } from "tsyringe";
-import { MimixService } from "../services/MimixService.js";
+import { MimixService } from "../../services/MimixService.js";
 
 @Discord()
 @injectable()

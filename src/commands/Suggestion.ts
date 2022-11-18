@@ -1,19 +1,15 @@
-import {
-  CommandInteraction,
-  ApplicationCommandOptionType,
-  User,
-} from "discord.js";
+import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 import { Discord, Slash, SlashChoice, SlashOption } from "discordx";
 import { injectable } from "tsyringe";
-import fs from "fs";
+import data from "../database/menu.json" assert { type: "json" };
 
 @Discord()
 @injectable()
 export class Suggestion {
   @Slash({ description: "점메추" })
   suggestion(
-    @SlashChoice({ name: "비건", value: "비건" })
-    @SlashChoice({ name: "논비건", value: "논비건" })
+    @SlashChoice({ name: "비건", value: "veg" })
+    @SlashChoice({ name: "논비건", value: "notveg" })
     @SlashOption({
       description: "비건?",
       name: "veg",
@@ -21,11 +17,11 @@ export class Suggestion {
       type: ApplicationCommandOptionType.String,
     })
     veg: string,
-    @SlashChoice({ name: "한식", value: "한식" })
-    @SlashChoice({ name: "중식", value: "중식" })
-    @SlashChoice({ name: "일식", value: "일식" })
-    @SlashChoice({ name: "양식", value: "양식" })
-    @SlashChoice({ name: "그 외", value: "그 외" })
+    @SlashChoice({ name: "한식", value: "kor" })
+    @SlashChoice({ name: "중식", value: "chi" })
+    @SlashChoice({ name: "일식", value: "jap" })
+    @SlashChoice({ name: "양식", value: "wes" })
+    @SlashChoice({ name: "그 외", value: "another" })
     @SlashOption({
       description: "어느 나라?",
       name: "nation",
@@ -33,10 +29,10 @@ export class Suggestion {
       type: ApplicationCommandOptionType.String,
     })
     nation: string,
-    @SlashChoice({ name: "밥", value: "밥" })
-    @SlashChoice({ name: "면", value: "면" })
-    @SlashChoice({ name: "빵", value: "빵" })
-    @SlashChoice({ name: "그 외", value: "그 외" })
+    @SlashChoice({ name: "밥", value: "rice" })
+    @SlashChoice({ name: "면", value: "noodle" })
+    @SlashChoice({ name: "빵", value: "bread" })
+    @SlashChoice({ name: "그 외", value: "another" })
     @SlashOption({
       description: "밥? 면? 빵?",
       name: "style",
@@ -47,11 +43,12 @@ export class Suggestion {
     interaction: CommandInteraction
   ) {
     const user = interaction.user.id;
-    // fs.readFile("./menu.csv", "utf-8", (e, data)=> {
-    //   const
-    // })
-    interaction.reply(
-      `<@${user}>의 오늘 점심 메뉴는 **${veg}${style}${nation}!!!!!** `
+    const availableMenus = data.filter(
+      (item) =>
+        item.veg === veg && item.nation === nation && item.style === style
     );
+    const rand = Math.floor(Math.random() * availableMenus.length);
+    const result = availableMenus[rand].name;
+    interaction.reply(`<@${user}>의 오늘 점심 메뉴는 **${result}!!!!!** `);
   }
 }
